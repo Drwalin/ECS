@@ -1,15 +1,19 @@
 #pragma once
 
+#include "types.hpp" // IWYU pragma: export
+
 #define ECS_TYPE_TRAITS_HEADER(TYPE_NAME, SHORT_NAME_OR_INT, POCO, ALIGNEMENT) \
 	static const ecs::TypeTraits *_ecs_get_type_traits();                      \
                                                                                \
 	constexpr static inline const char *_ecs_type_name = #TYPE_NAME;           \
-	constexpr static inline std::string _ecs_name = _ecs_type_name;            \
+	constexpr static inline std::string _ecs_name = #TYPE_NAME;                \
 	constexpr static inline StringOrInt _ecs_short_type_name_or_id =           \
 		SHORT_NAME_OR_INT;                                                     \
 	constexpr static inline uint32_t _ecs_custom_alignement = ALIGNEMENT;      \
 	constexpr static inline bool _ecs_poco = POCO;                             \
+                                                                               \
 	static ecs::ComponentId _ecs_component_id;                                 \
+	static ecs::ComponentId _ecs_get_component_id();                           \
                                                                                \
 	static void _ecs_assure(ecs::Entity, ecs::ComponentManager *);             \
 	static TYPE_NAME &_ecs_access(ecs::Entity, ecs::ComponentManager *);       \

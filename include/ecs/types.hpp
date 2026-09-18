@@ -63,7 +63,7 @@ struct TypeTraits {
 
 struct TagTypeTraits {
 	const char *type_name;
-	const std::string name;
+	const StringOrInt short_type_name_or_id; // used for serialzation
 	const TagId tag_id;
 };
 } // namespace ecs
