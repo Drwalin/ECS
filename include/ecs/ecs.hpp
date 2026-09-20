@@ -1,20 +1,11 @@
 #pragma once
 
-#include <cstdint>
-
-#include <string>
 #include <vector>
+
+#include "types.hpp" // IWYU pragma: export
 
 namespace ecs
 {
-class World;
-class ComponentManager;
-
-struct Entity {
-	uint32_t id;
-	uint32_t version;
-};
-
 class ObserverArray
 {
 public:
@@ -29,36 +20,6 @@ public:
 					  void *component);
 };
 
-struct TypeTraits {
-	void (*const assure)(Entity entity, ComponentManager *manager);
-	void *(*const access)(Entity entity, ComponentManager *manager);
-	void *(*const add)(Entity entity, ComponentManager *manager);
-	void *(*const set_copy)(Entity entity, ComponentManager *manager, const void *ptr);
-	void *(*const set_move)(Entity entity, ComponentManager *manager, void *mov_ptr);
-	void *(*const get)(Entity entity, const ComponentManager *manager);
-	void (*const remove)(Entity entity, ComponentManager *manager);
-
-	void (*const execute_observers_add)(Entity entity, ComponentManager *manager);
-	void (*const execute_observers_set)(Entity entity, ComponentManager *manager);
-	void (*const execute_observers_remove)(Entity entity, ComponentManager *manager);
-
-	void (*const move_to_empty)(void *src, void *dst);
-	void (*const copy_to_empty)(const void *src, void *dst);
-	void (*const move_to_existing)(void *src, void *dst);
-	void (*const copy_to_existing)(const void *src, void *dst);
-	void (*const construct)(void *ptr);
-	void (*const destruct)(void *ptr);
-
-	void (*const serialize)(struct serializer &ar, const void *ptr);
-	void (*const deserialize)(struct deserializer &ar, void *ptr);
-
-	const char *type_name;
-	const std::string name;
-	const uint32_t bytes;
-	const uint32_t alignement;
-	const bool poco;
-};
-
 class ComponentBase
 {
 public:
@@ -67,10 +28,6 @@ public:
 	TypeTraits traits;
 
 	// ... base class for component global data and component manager functions
-};
-
-struct ComponentId {
-	uint32_t id;
 };
 
 struct ComponentEntry {

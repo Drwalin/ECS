@@ -9,6 +9,10 @@ struct StringOrInt {
 	uint32_t i;
 };
 
+struct StdString {
+	std::string s;
+};
+
 namespace ecs
 {
 class World;
@@ -54,7 +58,7 @@ struct TypeTraits {
 
 	const char *type_name;
 	const std::string name;
-	const StringOrInt short_type_name_id; // used for serialzation
+	const StringOrInt short_name; // used for serialzation
 	const uint32_t bytes;
 	const uint32_t alignement;
 	const bool poco;
