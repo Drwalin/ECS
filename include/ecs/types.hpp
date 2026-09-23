@@ -55,6 +55,8 @@ struct TagId {
 };
 
 struct TypeTraits {
+	ecs::ComponentManager *(*const create_component_manager)();
+
 	void (*const assure)(Entity, ComponentManager *);
 	void *(*const access)(Entity, ComponentManager *);
 	void *(*const add)(Entity, ComponentManager *);

@@ -19,7 +19,10 @@ public:                                                                        \
                                                                                \
 	static ecs::ComponentId _ecs_component_id;                                 \
                                                                                \
+	static ecs::ComponentManager *_ecs_access_component_manager(ecs::World *); \
 	static ecs::ComponentManager *_ecs_get_component_manager(ecs::World *);    \
+	static const ecs::ComponentManager *_ecs_get_component_manager(            \
+		const ecs::World *);                                                   \
                                                                                \
 	static void _ecs_assure(ecs::Entity, ecs::ComponentManager *);             \
 	static TYPE_NAME &_ecs_access(ecs::Entity, ecs::ComponentManager *);       \

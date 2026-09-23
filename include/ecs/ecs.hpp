@@ -31,6 +31,7 @@ public:
 	void RegisterObserver(ObserverType type, ObserverFunc observer);
 
 protected:
+	TypeTraits traits;
 	union {
 		struct {
 			ObserverArray add;
@@ -39,7 +40,6 @@ protected:
 		} on;
 		ObserverArray array[3];
 	} observers;
-	TypeTraits traits;
 };
 
 class EntityManager
@@ -87,8 +87,10 @@ public:
 	void execute_observers(ObserverType type, Entity entity, ComponentId component);
 	void execute_observers(ObserverType type, Entity entity, ComponentManager *man, void *comp);
 	
+	ComponentManager *access_component_manager(ComponentId id);
 	ComponentManager *get_component_manager(ComponentId id);
-	
+	const ComponentManager *get_component_manager(ComponentId id) const;
+
 	void RegisterObserver(ObserverType type, ComponentId id,
 						  ObserverFunc observer);
 
