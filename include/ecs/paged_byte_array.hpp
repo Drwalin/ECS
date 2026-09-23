@@ -17,9 +17,9 @@ public:
 	void *try_get(uint32_t element_id);
 	const void *try_get(uint32_t element_id) const;
 
-	uint32_t page_id_from_element_id(uint32_t element_id);
-	uint32_t first_element_in_page(uint32_t page_id);
-	bool is_page_present(uint32_t page_id);
+	uint32_t page_id_from_element_id(uint32_t element_id) const;
+	uint32_t first_element_in_page(uint32_t page_id) const;
+	bool is_page_present(uint32_t page_id) const;
 
 	void remove_page(uint32_t page_id);
 
