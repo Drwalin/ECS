@@ -113,11 +113,29 @@ public:
 		return T::_ecs_type_traits;
 	}
 
-	inline static void move_to_empty(T &&src, T &dst);
-	inline static void copy_to_empty(const T &src, T &dst);
-	inline static void move_to_existing(T &&src, T &dst);
-	inline static void copy_to_existing(const T &src, T &dst);
-	inline static void construct(T *ptr);
-	inline static void destruct(T *ptr);
+	inline static void move_to_empty(T &&src, T &dst)
+	{
+		new (&dst) T(std::move(src));
+	}
+	inline static void copy_to_empty(const T &src, T &dst)
+	{
+		new (&dst) T(src);
+	}
+	inline static void move_to_existing(T &&src, T &dst)
+	{
+		dst = std::move(src);
+	}
+	inline static void copy_to_existing(const T &src, T &dst)
+	{
+		dst = src;
+	}
+	inline static void construct(T *ptr)
+	{
+		new (static_cast<void *>(ptr)) T();
+	}
+	inline static void destruct(T *ptr)
+	{
+		ptr->~T();
+	}
 };
 } // namespace ecs

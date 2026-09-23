@@ -81,7 +81,6 @@ struct TypeTraits {
 	const StringOrInt short_name; // used for serialzation
 	const uint32_t bytes;
 	const uint32_t alignement;
-	const bool poco;
 	const ComponentId component_id;
 };
 
