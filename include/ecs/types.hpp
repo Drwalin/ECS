@@ -29,31 +29,6 @@ struct DenseComponent {
 	uint32_t total_size = 0;
 };
 
-/*
- * example dense components packaging:
- * struct Position {
- *     float x,y,z;
- *     // ...
- * };
- * struct UUID {
- *     uint64_t a, b;
- *     // ...
- * };
- * 
- * Dense entry:
- * struct {
- *     void *componentsMap;
- *     void *tagsMap;
- *     uint32_t entityIdVersion;
- *     uint32_t presence;
- *     
- *     uint8_t uuid[sizeof(UUID) = 16];
- *     uint8_t position[sizeof(Position) = 12];
- *     
- *     uint8_t padding[4]; // total 56, alignement 8
- * };
- */
-
 enum ObserverType {
 	OBSERVER_ADD = 0,
 	OBSERVER_REMOVE = 1,

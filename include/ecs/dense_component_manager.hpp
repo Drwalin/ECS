@@ -5,6 +5,16 @@
 
 namespace ecs
 {
+/*
+ * example dense components packaging:
+ * Dense entry:
+ * struct {
+ *     DenseHeader header;
+ *     uint8_t storage[storage_for_components_size];
+ *     uint8_t padding[...];
+ * };
+ */
+
 struct DenseHeader {
 	void *componentsMap = 0;
 	void *tagsMap = 0;
