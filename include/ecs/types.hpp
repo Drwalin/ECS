@@ -15,6 +15,51 @@ struct StdString {
 
 namespace ecs
 {
+enum Density { SPARSE = 0, DENSE = 1 };
+static inline constexpr uint32_t MAX_DENSE_COMPONENTS = 31;
+
+struct DenseComponent {
+	uint32_t byte_offset = 0; // x > 24 
+	uint32_t bit_offset = 0; // 0 <= x <= 30
+	uint32_t alignement = 0;
+	uint32_t enabled = 0;
+	
+	uint32_t total_dense_components = 0;
+	uint32_t total_alignement = 0;
+	uint32_t total_size = 0;
+};
+
+/*
+ * example dense components packaging:
+ * struct Position {
+ *     float x,y,z;
+ *     // ...
+ * };
+ * struct UUID {
+ *     uint64_t a, b;
+ *     // ...
+ * };
+ * 
+ * Dense entry:
+ * struct {
+ *     void *componentsMap;
+ *     void *tagsMap;
+ *     uint32_t entityIdVersion;
+ *     uint32_t presence;
+ *     
+ *     uint8_t uuid[sizeof(UUID) = 16];
+ *     uint8_t position[sizeof(Position) = 12];
+ *     
+ *     uint8_t padding[4]; // total 56, alignement 8
+ * };
+ */
+
+enum ObserverType {
+	OBSERVER_ADD = 0,
+	OBSERVER_REMOVE = 1,
+	OBSERVER_CHANGE = 2
+};
+
 class World;
 class ComponentManager;
 class TagManager;
@@ -28,6 +73,8 @@ struct ComponentId {
 	uint32_t id;
 };
 
+using ObserverFunc = void(Entity, World *, void *component);
+
 struct TagId {
 	uint32_t id;
 };
@@ -40,10 +87,6 @@ struct TypeTraits {
 	void *(*const set_move)(Entity, ComponentManager *, void *mov_ptr);
 	void *(*const get)(Entity, const ComponentManager *);
 	void (*const remove)(Entity, ComponentManager *);
-
-	void (*const execute_observers_add)(Entity, ComponentManager *);
-	void (*const execute_observers_set)(Entity, ComponentManager *);
-	void (*const execute_observers_remove)(Entity, ComponentManager *);
 
 	void (*const move_to_empty)(void *src, void *dst);
 	void (*const copy_to_empty)(const void *src, void *dst);

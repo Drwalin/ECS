@@ -5,7 +5,7 @@
 struct ExamplePosition {
 	float x, y, z;
 	
-	ECS_TYPE_TRAITS_HEADER(ExamplePosition, "EP", 3, true, 4);
+	ECS_TYPE_TRAITS_HEADER_SPARSE(ExamplePosition, "EP", 3, true, 4);
 };
 
 struct ExampleTagPlayer {
