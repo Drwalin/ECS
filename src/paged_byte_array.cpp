@@ -134,7 +134,7 @@ void PagedByteArray::remove_page(uint32_t page_id)
 	}
 }
 
-size_t PagedByteArray::get_memory_usage()
+size_t PagedByteArray::get_memory_usage() const
 {
 	return sizeof(uint8_t *) * pages_capacity +
 		   (size_t)element_size * page_elements * present_pages_count;

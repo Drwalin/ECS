@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.hpp"
+#include "ecs.hpp"
 #include "paged_byte_array.hpp"
 
 namespace ecs
@@ -23,8 +24,13 @@ struct DenseHeader {
 						  // bit[0..30] -> component presence
 };
 
-class DenseComponentManager {
+class DenseComponentManager
+{
 public:
+	inline constexpr static uint32_t ENTITY_PRESENT_BIT = 31;
+	inline constexpr static uint32_t ENTITY_PRESENT_MASK = 0x80000000u;
+	inline constexpr static uint32_t COMPONENT_PRESENT_MASK = 0x7FFFFFFFu;
+
 	DenseComponentManager();
 	~DenseComponentManager();
 
@@ -33,9 +39,9 @@ public:
 private:
 	ComponentManager *denseComponents[MAX_DENSE_COMPONENTS] = {nullptr};
 	static DenseComponent componentsByteMeta[MAX_DENSE_COMPONENTS];
-	
-	uint32_t blockAlignement;
-	
+
+	uint32_t blockAlignement = 0;
+
 	PagedByteArray storage;
 };
-}
+} // namespace ecs

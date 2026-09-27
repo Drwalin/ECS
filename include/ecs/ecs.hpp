@@ -10,10 +10,13 @@ class ObserverArray
 {
 public:
 	struct ObserverEntry {
-		void (*on)(Entity entity, ComponentManager *manager, void *component);
+		ObserverFunc on;
 	};
 
-	void add(ObserverArray entry);
+	static inline ObserverEntry make_entry(ObserverFunc observer);
+
+	void add(ObserverEntry entry);
+
 	void execute_all_on(Entity entity, World *world, void *component);
 
 private:
@@ -23,22 +26,28 @@ private:
 class ComponentManager
 {
 public:
-	ComponentManager();
+	explicit ComponentManager(const TypeTraits &traits);
+	ComponentManager() = delete;
 	virtual ~ComponentManager();
 
+	const TypeTraits &get_traits() const;
+	const TypeTraits *traits_ptr() const; // nullptr when not set
+	ComponentId get_component_id() const;
+
 	void register_observer(ObserverType type, ObserverFunc observer);
+	void unregister_observer(ObserverType type, ObserverFunc observer);
 	void call_observers(World *world, ObserverType type, Entity entity,
 						void *component);
 
 protected:
-	TypeTraits traits;
+	const TypeTraits traits;
 	union {
 		struct {
 			ObserverArray add;
 			ObserverArray set;
 			ObserverArray remove;
 		} on;
-		ObserverArray array[3];
+		ObserverArray array[OBSERVER_TYPE_COUNT];
 	} observers;
 };
 } // namespace ecs

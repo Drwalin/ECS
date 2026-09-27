@@ -2,7 +2,9 @@
 
 #include <cassert>
 
-#include "types.hpp" // IWYU pragma: export
+#include "types.hpp"		 // IWYU pragma: export
+#include "header_macros.hpp" // IWYU pragma: export
+#include "world.hpp"
 
 #include "generic_component_manager.hpp"
 
@@ -127,18 +129,27 @@
 	void T::_ecs_deserialize(struct deserializer &ar, T &ptr)                  \
 	{                                                                          \
 		ptr.deserialize(ar);                                                   \
-	}
+	}                                                                          \
+	void (T::*_ecs_serialize_temporal)(struct serializer & ar, const T &ptr,   \
+									   ecs::World *) = nullptr;                \
+	void (T::*_ecs_deserialize_temporal)(struct deserializer & ar, T & ptr,    \
+										 ecs::World *) = nullptr;              \
+	void (T::*_ecs_serialize_permanent)(struct serializer & ar, const T &ptr,  \
+										ecs::World *) = nullptr;               \
+	void (T::*_ecs_deserialize_permanent)(struct deserializer & ar, T & ptr,   \
+										  ecs::World *) = nullptr;
 
 // void T::serialize(struct serializer &ar) const;
 // void T::deserialize(struct deserializer &ar);
-//
-// #define ECS_TAG_TRAITS(TYPE_NAME)
-// using TYPE_NAME = ExampleTagPlayer;
-// ecs::TagTypeTraits *_ecs_tag_traits = nullptr;
-// const ecs::TagTypeTraits *TYPE_NAME::_ecs_register_tag();
-// const ecs::TagTypeTraits *TYPE_NAME::_ecs_get_tag_traits();
-//
-// ecs::TagId TYPE_NAME::_ecs_tag_id = 0;
+
+#define ECS_TAG_TRAITS_DEFINITION(T)                                           \
+	ecs::TagTypeTraits *T::_ecs_tag_traits = nullptr;                          \
+	const ecs::TagTypeTraits *T::_ecs_register_tag()                           \
+	{                                                                          \
+		return ecs::GenericTagBasic<T>::register_tag();                        \
+	}                                                                          \
+                                                                               \
+	ecs::TagId T::_ecs_tag_id = {0};
 
 #include "example_usage.hpp"
 

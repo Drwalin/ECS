@@ -17,6 +17,7 @@ namespace ecs
 {
 enum Density { SPARSE = 0, DENSE = 1 };
 static inline constexpr uint32_t MAX_DENSE_COMPONENTS = 31;
+static inline constexpr uint32_t MAX_DENSE_COMPONENTS_PER_ENTITY = 30;
 
 struct DenseComponent {
 	uint32_t byte_offset = 0; // x > 24 
@@ -32,26 +33,41 @@ struct DenseComponent {
 enum ObserverType {
 	OBSERVER_ADD = 0,
 	OBSERVER_REMOVE = 1,
-	OBSERVER_CHANGE = 2
+	OBSERVER_CHANGE = 2,
+	OBSERVER_TYPE_COUNT = 3
 };
 
 class World;
 class ComponentManager;
 class TagManager;
+class EntityManager;
+class DenseComponentManager;
 
 struct Entity {
 	uint32_t id;
 	uint32_t version;
+
+	inline bool operator==(const Entity &o) const;
+	inline bool operator!=(const Entity &o) const;
+	inline bool operator<(const Entity &o) const;
 };
 
 struct ComponentId {
 	uint32_t id;
+
+	inline bool operator==(const ComponentId &o) const;
+	inline bool operator!=(const ComponentId &o) const;
+	inline bool operator<(const ComponentId &o) const;
 };
 
 using ObserverFunc = void(Entity, World *, void *component);
 
 struct TagId {
 	uint32_t id;
+
+	inline bool operator==(const TagId &o) const;
+	inline bool operator!=(const TagId &o) const;
+	inline bool operator<(const TagId &o) const;
 };
 
 struct TypeTraits {
@@ -82,6 +98,7 @@ struct TypeTraits {
 	const uint32_t bytes;
 	const uint32_t alignement;
 	const ComponentId component_id;
+	const Density density;
 };
 
 struct TagTypeTraits {

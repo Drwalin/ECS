@@ -23,7 +23,7 @@ public:
 
 	void remove_page(uint32_t page_id);
 
-	size_t get_memory_usage();
+	size_t get_memory_usage() const;
 
 public:
 	bool memset_zero = false;
