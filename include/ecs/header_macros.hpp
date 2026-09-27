@@ -2,8 +2,8 @@
 
 #include "types.hpp" // IWYU pragma: export
 
-#define ECS_TYPE_TRAITS_HEADER_ANY_DENSITY(                                    \
-	TYPE_NAME, SHORT_NAME, INT_NAME, ALIGNEMENT, DENSITY, DENSITY_DECL)  \
+#define ECS_TYPE_TRAITS_HEADER_ANY_DENSITY(TYPE_NAME, SHORT_NAME, INT_NAME,    \
+										   ALIGNEMENT, DENSITY, DENSITY_DECL)  \
 public:                                                                        \
 	static ecs::TypeTraits *_ecs_type_traits;                                  \
 	static const ecs::TypeTraits *_ecs_register_type();                        \
@@ -58,14 +58,14 @@ public:                                                                        \
 	void serialize(struct serializer &ar) const;                               \
 	void deserialize(struct deserializer &ar);
 
-#define ECS_TYPE_TRAITS_HEADER_SPARSE(TYPE_NAME, SHORT_NAME, INT_NAME,   \
+#define ECS_TYPE_TRAITS_HEADER_SPARSE(TYPE_NAME, SHORT_NAME, INT_NAME,         \
 									  ALIGNEMENT)                              \
-	ECS_TYPE_TRAITS_HEADER_ANY_DENSITY(TYPE_NAME, SHORT_NAME, INT_NAME,  \
+	ECS_TYPE_TRAITS_HEADER_ANY_DENSITY(TYPE_NAME, SHORT_NAME, INT_NAME,        \
 									   ALIGNEMENT, ecs::SPARSE, {})
 
-#define ECS_TYPE_TRAITS_HEADER_DENSE(TYPE_NAME, SHORT_NAME, INT_NAME,    \
+#define ECS_TYPE_TRAITS_HEADER_DENSE(TYPE_NAME, SHORT_NAME, INT_NAME,          \
 									 ALIGNEMENT, DENSITY_DECL)                 \
-	ECS_TYPE_TRAITS_HEADER_ANY_DENSITY(TYPE_NAME, SHORT_NAME, INT_NAME,  \
+	ECS_TYPE_TRAITS_HEADER_ANY_DENSITY(TYPE_NAME, SHORT_NAME, INT_NAME,        \
 									   ALIGNEMENT, ecs::DENSE, DENSITY_DECL)
 
 #define ECS_TAG_TRAITS(TYPE_NAME, SHORT_NAME, INT_NAME)                        \
