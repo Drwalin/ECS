@@ -2,10 +2,10 @@
 
 #include <cassert>
 
-#include "types.hpp"		 // IWYU pragma: export
-#include "world.hpp"
+#include "types.hpp" // IWYU pragma: export
+#include "world.hpp" // IWYU pragma: export
 
-#include "generic_component_manager.hpp"
+#include "generic_component_manager.hpp" // IWYU pragma: export
 
 #define ECS_TYPE_TRAITS_DEFINITION(T)                                          \
 	ecs::TypeTraits *T::_ecs_type_traits = nullptr;                            \
@@ -35,31 +35,31 @@
                                                                                \
 	void T::_ecs_assure(ecs::Entity e, ecs::ComponentManager *cm)              \
 	{                                                                          \
-		ecs::GenericComponentManager<T>::assure(e, cm);                        \
+		((ecs::GenericComponentManager<T> *)cm)->assure(e);                    \
 	}                                                                          \
 	T &T::_ecs_access(ecs::Entity e, ecs::ComponentManager *cm)                \
 	{                                                                          \
-		return ecs::GenericComponentManager<T>::access(e, cm);                 \
+		return ((ecs::GenericComponentManager<T> *)cm)->access(e);             \
 	}                                                                          \
 	T &T::_ecs_add(ecs::Entity e, ecs::ComponentManager *cm)                   \
 	{                                                                          \
-		return ecs::GenericComponentManager<T>::add(e, cm);                    \
+		return ((ecs::GenericComponentManager<T> *)cm)->add(e);                \
 	}                                                                          \
 	T &T::_ecs_set(ecs::Entity e, ecs::ComponentManager *cm, const T &val)     \
 	{                                                                          \
-		return ecs::GenericComponentManager<T>::set(e, cm, val);               \
+		return ((ecs::GenericComponentManager<T> *)cm)->set(e, val);           \
 	}                                                                          \
 	T &T::_ecs_set(ecs::Entity e, ecs::ComponentManager *cm, T &&mov_val)      \
 	{                                                                          \
-		return ecs::GenericComponentManager<T>::set(e, cm, mov_val);           \
+		return ((ecs::GenericComponentManager<T> *)cm)->set(e, mov_val);       \
 	}                                                                          \
 	T *T::_ecs_get(ecs::Entity e, const ecs::ComponentManager *cm)             \
 	{                                                                          \
-		return ecs::GenericComponentManager<T>::get(e, cm);                    \
+		return ((ecs::GenericComponentManager<T> *)cm)->get(e);                \
 	}                                                                          \
 	void T::_ecs_remove(ecs::Entity e, ecs::ComponentManager *cm)              \
 	{                                                                          \
-		ecs::GenericComponentManager<T>::remove(e, cm);                        \
+		((ecs::GenericComponentManager<T> *)cm)->remove(e);                    \
 	}                                                                          \
                                                                                \
 	void T::_ecs_assure(ecs::Entity e, ecs::World *w)                          \
@@ -150,6 +150,6 @@
                                                                                \
 	ecs::TagId T::_ecs_tag_id = {0};
 
-#include "example_usage.hpp"
+// #include "example_usage.hpp"
 
-ECS_TYPE_TRAITS_DEFINITION(ExamplePosition)
+// ECS_TYPE_TRAITS_DEFINITION(ExamplePosition)

@@ -50,26 +50,26 @@ public:
 				},
 
 				+[](void *src, void *dst) {
-					GenericComponentManager<T>::move_to_empty(
+					GenericComponentBasic<T>::move_to_empty(
 						std::move(*(T *)src), *(T *)dst);
 				},
 				+[](const void *src, void *dst) {
-					GenericComponentManager<T>::copy_to_empty(*(const T *)src,
-															  *(T *)dst);
+					GenericComponentBasic<T>::copy_to_empty(*(const T *)src,
+															*(T *)dst);
 				},
 				+[](void *src, void *dst) {
-					GenericComponentManager<T>::move_to_existing(
+					GenericComponentBasic<T>::move_to_existing(
 						std::move(*(T *)src), *(T *)dst);
 				},
 				+[](const void *src, void *dst) {
-					GenericComponentManager<T>::copy_to_existing(
+					GenericComponentBasic<T>::copy_to_existing(
 						*(const T *)src, *(T *)dst);
 				},
 				+[](void *ptr) {
-					GenericComponentManager<T>::construct((T *)ptr);
+					GenericComponentBasic<T>::construct((T *)ptr);
 				},
 				+[](void *ptr) {
-					GenericComponentManager<T>::destruct((T *)ptr);
+					GenericComponentBasic<T>::destruct((T *)ptr);
 				},
 
 				+[](struct serializer &ar, const void *ptr) {
