@@ -3,12 +3,12 @@
 #include "types.hpp" // IWYU pragma: export
 
 #define ECS_TYPE_TRAITS_HEADER_ANY_DENSITY(T, SHORT_NAME, INT_NAME,            \
-										   ALIGNEMENT, DENSITY, DENSITY_DECL)  \
+										   ALIGNEMENT, DENSITY, ...)           \
 public:                                                                        \
 	static ecs::TypeTraits *_ecs_type_traits;                                  \
 	static const ecs::TypeTraits *_ecs_register_type();                        \
                                                                                \
-	constexpr static inline ecs::DenseComponent _ecs_dense = DENSITY_DECL;     \
+	constexpr static inline ecs::DenseComponent _ecs_dense = __VA_ARGS__;      \
 	constexpr static inline ecs::Density _ecs_density = DENSITY;               \
 	constexpr static inline const char *_ecs_type_name = #T;                   \
 	constexpr static inline StringOrInt _ecs_name = {#T, 0};                   \
@@ -65,12 +65,11 @@ public:                                                                        \
 
 #define ECS_TYPE_TRAITS_HEADER_SPARSE(T, SHORT_NAME, INT_NAME, ALIGNEMENT)     \
 	ECS_TYPE_TRAITS_HEADER_ANY_DENSITY(T, SHORT_NAME, INT_NAME, ALIGNEMENT,    \
-									   ecs::SPARSE, {})
+									   ecs::SPARSE, {0, 0, 0, 0, 0, 0, 0})
 
-#define ECS_TYPE_TRAITS_HEADER_DENSE(T, SHORT_NAME, INT_NAME, ALIGNEMENT,      \
-									 DENSITY_DECL)                             \
+#define ECS_TYPE_TRAITS_HEADER_DENSE(T, SHORT_NAME, INT_NAME, ALIGNEMENT, ...) \
 	ECS_TYPE_TRAITS_HEADER_ANY_DENSITY(T, SHORT_NAME, INT_NAME, ALIGNEMENT,    \
-									   ecs::DENSE, DENSITY_DECL)
+									   ecs::DENSE, __VA_ARGS__)
 
 #define ECS_TAG_TRAITS(T, SHORT_NAME, INT_NAME)                                \
 public:                                                                        \

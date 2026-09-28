@@ -3,7 +3,6 @@
 #include <cassert>
 
 #include "types.hpp"		 // IWYU pragma: export
-#include "header_macros.hpp" // IWYU pragma: export
 #include "world.hpp"
 
 #include "generic_component_manager.hpp"
@@ -130,13 +129,13 @@
 	{                                                                          \
 		ptr.deserialize(ar);                                                   \
 	}                                                                          \
-	void (T::*_ecs_serialize_temporal)(struct serializer & ar, const T &ptr,   \
+	void (*T::_ecs_serialize_temporal)(struct serializer & ar, const T &ptr,   \
 									   ecs::World *) = nullptr;                \
-	void (T::*_ecs_deserialize_temporal)(struct deserializer & ar, T & ptr,    \
+	void (*T::_ecs_deserialize_temporal)(struct deserializer & ar, T & ptr,    \
 										 ecs::World *) = nullptr;              \
-	void (T::*_ecs_serialize_permanent)(struct serializer & ar, const T &ptr,  \
+	void (*T::_ecs_serialize_permanent)(struct serializer & ar, const T &ptr,  \
 										ecs::World *) = nullptr;               \
-	void (T::*_ecs_deserialize_permanent)(struct deserializer & ar, T & ptr,   \
+	void (*T::_ecs_deserialize_permanent)(struct deserializer & ar, T & ptr,   \
 										  ecs::World *) = nullptr;
 
 // void T::serialize(struct serializer &ar) const;

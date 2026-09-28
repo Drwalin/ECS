@@ -20,14 +20,14 @@ static inline constexpr uint32_t MAX_DENSE_COMPONENTS = 31;
 static inline constexpr uint32_t MAX_DENSE_COMPONENTS_PER_ENTITY = 30;
 
 struct DenseComponent {
-	uint32_t byte_offset = 0; // x > 24 
-	uint32_t bit_offset = 0; // 0 <= x <= 30
-	uint32_t alignement = 0;
-	uint32_t enabled = 0;
-	
-	uint32_t total_dense_components = 0;
-	uint32_t total_alignement = 0;
-	uint32_t total_size = 0;
+	const uint32_t byte_offset; // x > 24 
+	const uint32_t bit_offset; // 0 <= x <= 30
+	const uint32_t alignement;
+	const uint32_t enabled;
+
+	const uint32_t total_dense_components;
+	const uint32_t total_alignement;
+	const uint32_t total_size;
 };
 
 enum ObserverType {

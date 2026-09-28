@@ -1,5 +1,7 @@
 #pragma once
 
+#include <functional>
+
 #include "ecs.hpp"
 #include "generic_component_manager.hpp"
 
